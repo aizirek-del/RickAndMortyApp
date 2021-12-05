@@ -38,10 +38,10 @@ public CharacterAdapter(Context context,ArrayList<Characters> characterArrayList
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
          Characters characters = characterArrayList.get(position);
-         holder.textView.setText(characters.getName());
+         holder.textView.setText(characters.name);
 
         Glide.with(context).
-                load(characters.getImage()).
+                load(characters.image).
                 into(holder.imageView);
 
 

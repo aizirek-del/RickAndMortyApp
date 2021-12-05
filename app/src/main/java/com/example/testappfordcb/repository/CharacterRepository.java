@@ -20,7 +20,7 @@ public class CharacterRepository {
    }
    public  LiveData<CharacterResponse> getCharacters(){
 
-     final MutableLiveData<CharacterResponse>  data = new MutableLiveData<>();
+     final MutableLiveData<CharacterResponse> data = new MutableLiveData<>();
        apiRequest.getAllCharacters()
                .enqueue(new Callback<CharacterResponse>() {
                    @Override

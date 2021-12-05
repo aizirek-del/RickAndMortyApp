@@ -9,11 +9,11 @@ import java.util.List;
 
 public class CharacterResponse {
 
-    public List<Characters> characters;
+    public List<Characters> results;
     public Info info;
 
-    public List<Characters> getCharacter() {
-        return characters;
+    public List<Characters> getResults() {
+        return results;
     }
 
     public Info getInfo() {
@@ -24,8 +24,8 @@ public class CharacterResponse {
         this.info = info;
     }
 
-    public void setCharacter(List<Characters> characters) {
-        this.characters = characters;
+    public void setResults(List<Characters> results) {
+        this.results = results;
     }
 
 //   @Override

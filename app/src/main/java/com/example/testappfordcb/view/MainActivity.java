@@ -1,6 +1,7 @@
 package com.example.testappfordcb.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 import com.example.testappfordcb.R;
 import com.example.testappfordcb.adapter.CharacterAdapter;
 import com.example.testappfordcb.model.Characters;
+import com.example.testappfordcb.response.CharacterResponse;
 import com.example.testappfordcb.view_model.CharacterViewModel;
 
 import java.util.ArrayList;
@@ -36,26 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        init();
-        getCharacters();
-
-
-    }
-
-    private void getCharacters() {
-        characterVM.getCharacterResponseLiveData().observe(this,characterResponse -> {
-            if(characterResponse!= null &&characterResponse.getCharacter()!=null
-            && characterResponse.getCharacter().isEmpty()){
-
-                progressBar.setVisibility(View.GONE);
-                List<Characters> charactersList = characterResponse.getCharacter();
-                charactersArrayList.addAll(charactersList);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    private void init(){
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.characters_rv);
         layoutManager = new LinearLayoutManager(MainActivity.this);
@@ -66,6 +48,30 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         characterVM  = ViewModelProviders.of(this).get(CharacterViewModel.class);
 
+        //init();
+        getCharacters();
+
 
     }
+
+    private void getCharacters() {
+
+            progressBar.setVisibility(View.VISIBLE);
+            final Observer<CharacterResponse> observer = new Observer<CharacterResponse>() {
+                @Override
+                public void onChanged(CharacterResponse characterResponse) {
+                    if ( characterResponse.getResults() != null) {
+
+                        progressBar.setVisibility(View.GONE);
+                        List<Characters> charactersList = characterResponse.getResults();
+                        charactersArrayList.addAll(charactersList);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            };
+            characterVM.getCharacterResponseLiveData().observe(this, observer);
+        }
+
+//    private void init(){
+//    }
 }
